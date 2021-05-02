@@ -2,7 +2,6 @@ Flask
 Flask-RESTful
 Flask_jwt_extended
 Flask_SQLAlchemy
-uwsgi
 psycopg2
 requests
 werkzeug
