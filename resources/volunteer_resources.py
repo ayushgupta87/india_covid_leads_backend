@@ -175,7 +175,7 @@ class GetVolunteerByUsername(Resource):
         checkUser = VolunteerModel.find_by_username(str(username).lower().strip())
 
         if not checkUser:
-            return {'message': 'Requested volunteer not found'}
+            return {'message': 'Requested volunteer not found'}, 400
 
         if checkUser.keep_private == '0':
             return {'name': checkUser.volunteer_name,
