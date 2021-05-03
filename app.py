@@ -9,7 +9,8 @@ from werkzeug.serving import WSGIRequestHandler
 from resources.categories_resources import AddCategories, GetAllServices
 from resources.city_state_resources import AddCityState, GetAlCitiesStates
 from resources.service_provider_resources import AddNewLead, GetAllService
-from resources.volunteer_resources import RegisterNewVolunteer, LoginVolunteer, RefreshToken, GetCurrentUserDetails
+from resources.volunteer_resources import RegisterNewVolunteer, LoginVolunteer, RefreshToken, GetCurrentUserDetails, \
+    GetVolunteerByUsername
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///coviddata.db')
@@ -22,7 +23,6 @@ api = Api(app)
 
 jwt = JWTManager(app)
 
-
 # @app.before_first_request
 # def create_tables():
 #     db.create_all()
@@ -32,6 +32,9 @@ api.add_resource(RegisterNewVolunteer, '/kaizen/api/covidLeads/registerVolunteer
 api.add_resource(LoginVolunteer, '/kaizen/api/covidLeads/loginVolunteer')
 api.add_resource(RefreshToken, '/kaizen/api/covidLeads/refreshTokenVolunteer')
 api.add_resource(GetCurrentUserDetails, '/kaizen/api/covidLeads/currentVolunteer')
+
+# get single volunteer name
+api.add_resource(GetVolunteerByUsername, '/kaizen/api/covidLeads/volunteerDetails/<string:username>')
 
 # add category,admin
 api.add_resource(AddCategories, '/kaizen/api/covidLeads/addCategory')

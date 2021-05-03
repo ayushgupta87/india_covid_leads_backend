@@ -168,3 +168,17 @@ class GetCurrentUserDetails(Resource):
 
         current_user_customer = get_jwt_identity()
         return {'userName': current_user_customer}, 200
+
+
+class GetVolunteerByUsername(Resource):
+    def get(self, username):
+        checkUser = VolunteerModel.find_by_username(str(username).lower().strip())
+
+        if not checkUser:
+            return {'message': 'Requested volunteer not found'}
+
+        if checkUser.keep_private == '0':
+            return {'name': checkUser.volunteer_name,
+                    'contactinfo': 'Private'}, 200
+
+        return {'name': checkUser.volunteer_name, 'contactinfo': checkUser.volunteer_contact}, 200
