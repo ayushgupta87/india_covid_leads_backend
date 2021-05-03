@@ -182,3 +182,34 @@ class GetVolunteerByUsername(Resource):
                     'contactinfo': 'Private'}, 200
 
         return {'name': checkUser.volunteer_name, 'contactinfo': checkUser.volunteer_emailAddress}, 200
+
+
+class ChangeProfileStatus(Resource):
+    @jwt_required()
+    def put(self, status):
+        getuserjson = GetCurrentUserDetails.get(self)
+        getuser = getuserjson[0]
+
+        checkUser = VolunteerModel.find_by_username(getuser['userName'])
+
+        if not checkUser:
+            return {'message': 'User not found'}, 400
+
+        if status.isnumeric():
+            print('true, Is numeric')
+            statusNow = int(status)
+
+            try:
+
+                if checkUser.keep_private == str(statusNow):
+                    return {'message': 'No changes made'}, 400
+
+                checkUser.keep_private = str(statusNow)
+                checkUser.save_to_db()
+                return {'message': 'Profile update successfully'}, 200
+            except Exception as e:
+                print(f'Error while updating profile status {e}'), 500
+                return {'message': 'Something went wrong'}, 500
+        else:
+            print('False, Is not numeric')
+            return {'message': 'Error'}, 400

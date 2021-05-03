@@ -10,7 +10,7 @@ from resources.categories_resources import AddCategories, GetAllServices
 from resources.city_state_resources import AddCityState, GetAlCitiesStates
 from resources.service_provider_resources import AddNewLead, GetAllService
 from resources.volunteer_resources import RegisterNewVolunteer, LoginVolunteer, RefreshToken, GetCurrentUserDetails, \
-    GetVolunteerByUsername
+    GetVolunteerByUsername, ChangeProfileStatus
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///coviddata.db')
@@ -35,6 +35,9 @@ api.add_resource(GetCurrentUserDetails, '/kaizen/api/covidLeads/currentVolunteer
 
 # get single volunteer name
 api.add_resource(GetVolunteerByUsername, '/kaizen/api/covidLeads/volunteerDetails/<string:username>')
+
+# update profile status
+api.add_resource(ChangeProfileStatus, '/kaizen/api/covidLeads/volunteerProfileStatus/<string:status>')
 
 # add category,admin
 api.add_resource(AddCategories, '/kaizen/api/covidLeads/addCategory')
