@@ -129,10 +129,9 @@ class LoginVolunteer(Resource):
 
         check_username = VolunteerModel.find_by_username(str(data['username']).lower().strip())
 
-        if check_username.is_active != '1':
-            return {'message': 'Your account disabled by admin'}, 400
-
         if check_username:
+            if check_username.is_active != '1':
+                return {'message': 'Your account disabled by admin'}, 400
             if check_username and safe_str_cmp(check_username.password, data['password']):
                 access_token = create_access_token(identity=check_username.volunteer_username, fresh=True)
                 refresh_token = create_refresh_token(check_username.volunteer_username)
