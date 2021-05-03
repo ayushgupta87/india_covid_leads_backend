@@ -181,4 +181,4 @@ class GetVolunteerByUsername(Resource):
             return {'name': checkUser.volunteer_name,
                     'contactinfo': 'Private'}, 200
 
-        return {'name': checkUser.volunteer_name, 'contactinfo': checkUser.volunteer_contact}, 200
+        return {'name': checkUser.volunteer_name, 'contactinfo': checkUser.volunteer_emailAddress}, 200
