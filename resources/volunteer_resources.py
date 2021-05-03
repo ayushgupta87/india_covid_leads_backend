@@ -177,7 +177,7 @@ class GetVolunteerByUsername(Resource):
         if not checkUser:
             return {'message': 'Requested volunteer not found'}, 400
 
-        if checkUser.keep_private == '0':
+        if checkUser.keep_private == '1':
             return {'name': checkUser.volunteer_name,
                     'contactinfo': 'Private'}, 200
 
