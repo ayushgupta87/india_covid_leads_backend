@@ -9,7 +9,7 @@ from werkzeug.serving import WSGIRequestHandler
 from resources.categories_resources import AddCategories, GetAllServices
 from resources.city_state_resources import AddCityState, GetAlCitiesStates
 from resources.service_provider_resources import AddNewLead, GetAllService
-from resources.sonsors_resources import AddSponsor, GetAllSponsor
+from resources.sponsors_resources import AddSponsor, GetAllSponsor
 from resources.volunteer_resources import RegisterNewVolunteer, LoginVolunteer, RefreshToken, GetCurrentUserDetails, \
     GetVolunteerByUsername, ChangeProfileStatus
 
