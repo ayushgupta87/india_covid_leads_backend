@@ -122,4 +122,4 @@ class GetAllService(Resource):
         except:
             return {'message': 'No more items to load'}, 400
 
-        return {'leads': list(map(lambda x: x.provider_details_json(), products.items))}
+        return {'leads': list(map(lambda x: x.provider_details_json(), products.items))}, 200
