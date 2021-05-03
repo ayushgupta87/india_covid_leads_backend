@@ -9,6 +9,7 @@ from werkzeug.serving import WSGIRequestHandler
 from resources.categories_resources import AddCategories, GetAllServices
 from resources.city_state_resources import AddCityState, GetAlCitiesStates
 from resources.service_provider_resources import AddNewLead, GetAllService
+from resources.sonsors_resources import AddSponsor, GetAllSponsor
 from resources.volunteer_resources import RegisterNewVolunteer, LoginVolunteer, RefreshToken, GetCurrentUserDetails, \
     GetVolunteerByUsername, ChangeProfileStatus
 
@@ -51,6 +52,10 @@ api.add_resource(AddCityState, '/kaizen/api/covidLeads/addCityState')
 api.add_resource(AddNewLead, '/kaizen/api/covidLeads/addNewLead')
 # get all leads
 api.add_resource(GetAllService, '/kaizen/api/covidLeads/getAll/<string:service>/<string:cityState>/<string:pageNumber>')
+
+# sonsor
+api.add_resource(AddSponsor, '/kaizen/api/covidLeads/addSponsor')
+api.add_resource(GetAllSponsor, '/kaizen/api/covidLeads/getAllSponsor')
 
 if __name__ == '__main__':
     from db import db
