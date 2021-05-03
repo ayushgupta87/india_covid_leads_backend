@@ -1,10 +1,13 @@
 import re
+import requests
 
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required, get_jti
 from flask_restful import Resource, reqparse
 from werkzeug.security import safe_str_cmp
 
 from models.volunteer_models import VolunteerModel
+
+sendInBlueEmailKey = "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"
 
 _volunteer_parser = reqparse.RequestParser()
 _volunteer_parser.add_argument('AppLoginPassword',
@@ -97,11 +100,43 @@ class RegisterNewVolunteer(Resource):
                 str(data['volunteer_username']).lower().strip(),
                 str(data['password']).strip(),
                 str(data['volunteer_contact']).strip(),
-                str(data['volunteer_emailAddress']).strip(),
+                str(data['volunteer_emailAddress']).lower().strip(),
                 str(data['keep_private']).strip(),
                 '1'
             )
             newVolunteer.save_to_db()
+
+            try:
+                url = "https://api.sendinblue.com/v3/smtp/email"
+                payload = {
+                    "sender": {
+                        "name": "CoviRescue",
+                        "email": "kaizencovidleads@gmail.com"
+                    },
+                    "to": [
+                        {
+                            "email": str(data['volunteer_emailAddress']).strip().lower(),
+                            "name": str(data['volunteer_name']).title().strip()
+                        }
+                    ],
+                    "textContent": f'''Hello {str(data["volunteer_name"]).title().strip()} !,\nThanks for joining us on CoviRescue Platform as a Volunteer, Please remember your credentials\nUsername - {str(data['volunteer_username']).lower().strip()}\nPassword - {str(data['password']).strip()}\n\nShare this app as much you can so needy people can get the required service easily\n\nThanks\nTeam Kaizen Innovations''',
+                    "subject": "Welcome to CoviRescue!"
+                }
+                headers = {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "api-key": sendInBlueEmailKey
+                }
+
+                email_response = requests.request("POST", url, json=payload, headers=headers)
+
+                print(email_response.text)
+
+                if email_response.status_code == 201:
+                    print('Email sent successfully')
+            except Exception as e:
+                print(f'Error in sending registration email {e}')
+
             return {'message': 'registered successfully'}, 200
         except Exception as e:
             print(f'Error while registering new volunteer {e}')
