@@ -43,4 +43,4 @@ class AddSponsor(Resource):
 
 class GetAllSponsor(Resource):
     def get(self):
-        return {'sponsors' : list(map(lambda x: x.sponspor_json(), SponsorListModels.find_all()))}, 200
+        return {'sponsors': list(map(lambda x: x.sponspor_json(), SponsorListModels.find_all()))}, 200
